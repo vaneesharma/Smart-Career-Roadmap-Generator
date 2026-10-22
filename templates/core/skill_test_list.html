@@ -1,0 +1,18 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Skill Assessment{% endblock %}
+{% block page_subtitle %}Test yourself and see where you stand{% endblock %}
+{% block dashboard_content %}
+<div class="grid grid-3">
+    {% for test in tests %}
+    <div class="card">
+        <h3>{{ test.title }}</h3>
+        <p style="font-size:13px; margin:8px 0;">{{ test.description|truncatewords:16 }}</p>
+        <p style="font-size:12px; color:var(--text-muted);">⏱ {{ test.time_limit_minutes }} min &nbsp; | &nbsp; {{ test.total_marks }} questions</p>
+        <a href="{% url 'core:take_skill_test' test.id %}" class="btn btn-sm btn-primary" style="margin-top:12px;">Start Test</a>
+    </div>
+    {% empty %}
+    <p>No skill tests available right now.</p>
+    {% endfor %}
+</div>
+<a href="{% url 'core:skill_test_history' %}" style="display:inline-block; margin-top:20px; color:var(--primary);">View my test history →</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+<footer>
+    <div class="footer-grid">
+        <div>
+            <h4>🎯 CareerRoadmap</h4>
+            <p style="font-size:14px; line-height:1.6;">A student project that helps you discover the right career path and follow a personalised roadmap to get there.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{% url 'core:home' %}#features">Features</a></li>
+                <li><a href="{% url 'core:home' %}#about">About</a></li>
+                <li><a href="{% url 'core:home' %}#faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Account</h4>
+            <ul>
+                <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                <li><a href="{% url 'accounts:register' %}">Register</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <ul>
+                <li>support@careerroadmap.edu</li>
+                <li>Mon - Sat, 9am - 6pm</li>
+            </ul>
+        </div>
+    </div>
+    <div class="bottom-line">
+        &copy; {% now "Y" %} Smart Career Roadmap Generator. All rights reserved.
+    </div>
+</footer>

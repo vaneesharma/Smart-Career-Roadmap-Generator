@@ -1,0 +1,285 @@
+/* ==========================================================================
+   Smart Career Roadmap Generator - Main Stylesheet
+   Plain CSS only, no framework. Uses CSS variables so light/dark theme
+   is just a matter of swapping variable values on the <body> tag.
+   ========================================================================== */
+
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --secondary: #06b6d4;
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --sidebar-bg: #111827;
+    --sidebar-text: #d1d5db;
+}
+
+body.dark-theme {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --sidebar-bg: #020617;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ---------------- Buttons ---------------- */
+.btn {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+
+/* ---------------- Navbar (public pages) ---------------- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background: var(--surface);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.navbar .logo { font-size: 22px; font-weight: 800; color: var(--primary); }
+.navbar ul { display: flex; gap: 28px; align-items: center; }
+.navbar ul li a { font-weight: 500; }
+.navbar ul li a:hover { color: var(--primary); }
+
+/* ---------------- Hero ---------------- */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 60px;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+.hero-content { max-width: 560px; animation: fadeInUp 0.8s ease; }
+.hero-content h1 { font-size: 42px; margin-bottom: 18px; line-height: 1.25; }
+.hero-content span { color: var(--primary); }
+.hero-content p { color: var(--text-muted); margin-bottom: 26px; font-size: 16px; }
+.hero-image img { max-width: 420px; width: 100%; animation: floatUpDown 4s ease-in-out infinite; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+
+/* ---------------- Section wrappers ---------------- */
+.section { padding: 70px 60px; }
+.section-title { text-align: center; font-size: 30px; margin-bottom: 10px; }
+.section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 40px; }
+
+/* ---------------- Feature / stat / testimonial cards ---------------- */
+.grid { display: grid; gap: 26px; }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+.card .icon { font-size: 30px; margin-bottom: 14px; }
+.card h3 { margin-bottom: 8px; font-size: 18px; }
+.card p { color: var(--text-muted); font-size: 14px; }
+
+.stat-card { text-align: center; }
+.stat-card .number { font-size: 34px; font-weight: 800; color: var(--primary); }
+.stat-card .label { color: var(--text-muted); margin-top: 6px; }
+
+.testimonial-card { text-align: center; }
+.testimonial-card img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; }
+
+/* ---------------- FAQ ---------------- */
+.faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; cursor: pointer; }
+.faq-item .faq-question { display: flex; justify-content: space-between; font-weight: 600; }
+.faq-item .faq-answer { max-height: 0; overflow: hidden; color: var(--text-muted); transition: max-height 0.3s ease; }
+.faq-item.open .faq-answer { max-height: 240px; margin-top: 10px; }
+
+/* ---------------- Auth pages ---------------- */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 20px;
+}
+.auth-card {
+    background: var(--surface);
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    animation: fadeInUp 0.5s ease;
+}
+.auth-card h2 { margin-bottom: 6px; }
+.auth-card p.subtitle { color: var(--text-muted); margin-bottom: 24px; font-size: 14px; }
+
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.helptext { font-size: 12px; color: var(--text-muted); margin-top: 4px; display: block; }
+.errorlist { color: var(--danger); font-size: 12px; list-style: none; margin-top: 4px; }
+
+/* ---------------- Dashboard layout ---------------- */
+.dashboard-wrapper { display: flex; min-height: 100vh; }
+
+.sidebar {
+    width: 250px;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 24px 0;
+    flex-shrink: 0;
+}
+.sidebar .brand { padding: 0 24px 24px; font-size: 18px; font-weight: 800; color: #fff; }
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    color: var(--sidebar-text);
+    font-size: 14px;
+    border-left: 3px solid transparent;
+    transition: background 0.2s ease;
+}
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background: rgba(255,255,255,0.08);
+    border-left-color: var(--secondary);
+    color: #fff;
+}
+
+.main-content { flex: 1; padding: 26px 34px; }
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 26px;
+}
+.topbar .greeting h2 { font-size: 22px; }
+.topbar .greeting p { color: var(--text-muted); font-size: 13px; }
+.topbar-actions { display: flex; align-items: center; gap: 18px; }
+.notif-bell { position: relative; font-size: 20px; }
+.notif-badge {
+    position: absolute; top: -6px; right: -8px;
+    background: var(--danger); color: #fff;
+    font-size: 10px; padding: 2px 6px; border-radius: 10px;
+}
+
+/* ---------------- Progress bars ---------------- */
+.progress-bar-bg { background: var(--border); border-radius: 20px; height: 10px; overflow: hidden; }
+.progress-bar-fill { background: var(--primary); height: 100%; border-radius: 20px; transition: width 0.6s ease; }
+
+/* ---------------- Tables ---------------- */
+table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 10px; overflow: hidden; }
+table th, table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+table th { background: var(--bg); font-weight: 700; }
+
+/* ---------------- Badges ---------------- */
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-success { background: #dcfce7; color: var(--success); }
+.badge-warning { background: #fef3c7; color: var(--warning); }
+.badge-danger { background: #fee2e2; color: var(--danger); }
+.badge-info { background: #e0f2fe; color: #0284c7; }
+
+/* ---------------- AI Roadmap panel ---------------- */
+.ai-list { list-style: disc; margin-left: 20px; margin-top: 6px; }
+.ai-list li { padding: 3px 0; font-size: 14px; }
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---------------- Messages ---------------- */
+.messages { margin-bottom: 20px; }
+.messages li {
+    padding: 12px 18px; border-radius: 8px; margin-bottom: 10px; font-size: 14px;
+    animation: fadeInUp 0.3s ease;
+}
+.messages li.success { background: #dcfce7; color: var(--success); }
+.messages li.error { background: #fee2e2; color: var(--danger); }
+.messages li.info { background: #e0f2fe; color: #0284c7; }
+
+/* ---------------- Footer ---------------- */
+footer {
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 50px 60px 20px;
+}
+footer .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; }
+footer h4 { color: #fff; margin-bottom: 14px; }
+footer ul li { margin-bottom: 8px; font-size: 14px; }
+footer .bottom-line { text-align: center; padding-top: 20px; border-top: 1px solid #374151; font-size: 13px; }
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 900px) {
+    .dashboard-wrapper { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .hero { padding: 40px 20px; text-align: center; justify-content: center; }
+    .navbar { padding: 14px 20px; }
+    .section { padding: 50px 20px; }
+}

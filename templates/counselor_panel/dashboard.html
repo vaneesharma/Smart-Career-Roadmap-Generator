@@ -1,0 +1,21 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Counselor Dashboard{% endblock %}
+{% block page_subtitle %}Track and guide your students{% endblock %}
+{% block dashboard_content %}
+<div class="card">
+    <table>
+        <tr><th>Name</th><th>College</th><th>Branch</th><th>Career Goal</th><th>Action</th></tr>
+        {% for s in students %}
+        <tr>
+            <td>{{ s.user.username }}</td>
+            <td>{{ s.college }}</td>
+            <td>{{ s.branch }}</td>
+            <td>{{ s.career_goal|default:"Not set" }}</td>
+            <td><a href="{% url 'core:counselor_student_detail' s.id %}" class="btn btn-sm btn-primary">View Profile</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No students registered yet.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

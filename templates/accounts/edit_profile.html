@@ -1,0 +1,109 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}My Profile{% endblock %}
+{% block page_subtitle %}Keep this updated - it powers your career recommendations{% endblock %}
+
+{% block dashboard_content %}
+<div class="grid" style="grid-template-columns: 2fr 1fr; gap:24px;">
+
+    <div class="card">
+        <h3 style="margin-bottom:18px;">Basic & Education Details</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid grid-3">
+                <div class="form-group"><label>First Name</label>{{ user_form.first_name }}</div>
+                <div class="form-group"><label>Last Name</label>{{ user_form.last_name }}</div>
+                <div class="form-group"><label>Email</label>{{ user_form.email }}</div>
+            </div>
+            <div class="form-group"><label>Profile Picture</label>{{ profile_form.profile_picture }}</div>
+            <div class="grid grid-3">
+                <div class="form-group"><label>Phone</label>{{ profile_form.phone }}</div>
+                <div class="form-group"><label>College</label>{{ profile_form.college }}</div>
+                <div class="form-group"><label>Branch</label>{{ profile_form.branch }}</div>
+                <div class="form-group"><label>Semester</label>{{ profile_form.semester }}</div>
+                <div class="form-group"><label>CGPA</label>{{ profile_form.cgpa }}</div>
+                <div class="form-group"><label>Career Goal</label>{{ profile_form.career_goal }}</div>
+            </div>
+            <div class="form-group"><label>Skills</label>{{ profile_form.skills }}</div>
+            <div class="form-group"><label>Interests</label>{{ profile_form.interests }}</div>
+            <div class="form-group"><label>Programming Languages</label>{{ profile_form.programming_languages }}</div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <div class="card" style="text-align:center;">
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" style="width:110px;height:110px;border-radius:50%;object-fit:cover;">
+        {% else %}
+            <div style="width:110px;height:110px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;margin:0 auto;">
+                {{ user.username|first|upper }}
+            </div>
+        {% endif %}
+        <h3 style="margin-top:14px;">{{ user.get_full_name|default:user.username }}</h3>
+        <p style="color:var(--text-muted); font-size:13px;">{{ profile.role|title }}</p>
+        <div class="progress-bar-bg" style="margin-top:16px;">
+            <div class="progress-bar-fill" data-percent="{{ profile.profile_completion_percent }}"></div>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">{{ profile.profile_completion_percent }}% complete</p>
+    </div>
+</div>
+
+<!-- ---------------- Certificates ---------------- -->
+<div class="card" style="margin-top:24px;">
+    <h3 style="margin-bottom:14px;">🏆 Certificates</h3>
+    <table style="margin-bottom:16px;">
+        <tr><th>Title</th><th>Issued By</th><th>Date</th></tr>
+        {% for c in profile.certificates.all %}
+        <tr><td>{{ c.title }}</td><td>{{ c.issued_by }}</td><td>{{ c.issue_date }}</td></tr>
+        {% empty %}
+        <tr><td colspan="3">No certificates added yet.</td></tr>
+        {% endfor %}
+    </table>
+    <form method="POST" action="{% url 'accounts:add_certificate' %}" enctype="multipart/form-data" style="display:flex; gap:10px; flex-wrap:wrap;">
+        {% csrf_token %}
+        {{ certificate_form.title }}
+        {{ certificate_form.issued_by }}
+        {{ certificate_form.issue_date }}
+        {{ certificate_form.certificate_file }}
+        <button type="submit" class="btn btn-sm btn-success">Add Certificate</button>
+    </form>
+</div>
+
+<!-- ---------------- Projects ---------------- -->
+<div class="card" style="margin-top:24px;">
+    <h3 style="margin-bottom:14px;">💻 Projects</h3>
+    <table style="margin-bottom:16px;">
+        <tr><th>Title</th><th>Tech Used</th><th>Link</th></tr>
+        {% for p in profile.projects.all %}
+        <tr><td>{{ p.title }}</td><td>{{ p.tech_used }}</td><td><a href="{{ p.project_link }}" target="_blank">View</a></td></tr>
+        {% empty %}
+        <tr><td colspan="3">No projects added yet.</td></tr>
+        {% endfor %}
+    </table>
+    <form method="POST" action="{% url 'accounts:add_project' %}" style="display:flex; gap:10px; flex-wrap:wrap;">
+        {% csrf_token %}
+        {{ project_form.title }}
+        {{ project_form.tech_used }}
+        {{ project_form.project_link }}
+        <button type="submit" class="btn btn-sm btn-success">Add Project</button>
+    </form>
+</div>
+
+<!-- ---------------- Achievements ---------------- -->
+<div class="card" style="margin-top:24px;">
+    <h3 style="margin-bottom:14px;">⭐ Achievements</h3>
+    <table style="margin-bottom:16px;">
+        <tr><th>Title</th><th>Date</th></tr>
+        {% for a in profile.achievements.all %}
+        <tr><td>{{ a.title }}</td><td>{{ a.date_achieved }}</td></tr>
+        {% empty %}
+        <tr><td colspan="2">No achievements added yet.</td></tr>
+        {% endfor %}
+    </table>
+    <form method="POST" action="{% url 'accounts:add_achievement' %}" style="display:flex; gap:10px; flex-wrap:wrap;">
+        {% csrf_token %}
+        {{ achievement_form.title }}
+        {{ achievement_form.date_achieved }}
+        <button type="submit" class="btn btn-sm btn-success">Add Achievement</button>
+    </form>
+</div>
+{% endblock %}

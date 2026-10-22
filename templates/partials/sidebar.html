@@ -1,0 +1,23 @@
+<aside class="sidebar">
+    <div class="brand">🎯 CareerRoadmap</div>
+    <ul>
+        {% if user.profile.role == 'student' %}
+            <li><a href="{% url 'core:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">🏠 Dashboard</a></li>
+            <li><a href="{% url 'accounts:edit_profile' %}">👤 My Profile</a></li>
+            <li><a href="{% url 'core:career_recommendation' %}">🎯 Career Recommendation</a></li>
+            <li><a href="{% url 'core:roadmap_list' %}">🗺️ My Roadmap</a></li>
+            <li><a href="{% url 'core:skill_test_list' %}">📝 Skill Assessment</a></li>
+            <li><a href="{% url 'core:resources' %}">📚 Learning Resources</a></li>
+            <li><a href="{% url 'core:resume' %}">📄 Resume</a></li>
+            <li><a href="{% url 'core:notifications' %}">🔔 Notifications</a></li>
+        {% elif user.profile.role == 'admin' %}
+            <li><a href="{% url 'core:admin_dashboard' %}">🏠 Admin Dashboard</a></li>
+            <li><a href="{% url 'core:admin_manage_students' %}">👥 Manage Students</a></li>
+            <li><a href="/django-admin/" target="_blank">⚙️ Full Admin Panel</a></li>
+        {% elif user.profile.role == 'counselor' %}
+            <li><a href="{% url 'core:counselor_dashboard' %}">🏠 Counselor Dashboard</a></li>
+        {% endif %}
+        <li><a href="{% url 'accounts:password_change' %}">🔒 Change Password</a></li>
+        <li><a href="{% url 'accounts:logout' %}">🚪 Logout</a></li>
+    </ul>
+</aside>

@@ -1,0 +1,53 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}{{ student.user.username }}'s Profile{% endblock %}
+{% block dashboard_content %}
+<div class="grid" style="grid-template-columns: 1fr 1fr; gap:24px;">
+    <div class="card">
+        <h3 style="margin-bottom:12px;">Profile Info</h3>
+        <p><strong>College:</strong> {{ student.college }}</p>
+        <p><strong>Branch:</strong> {{ student.branch }}</p>
+        <p><strong>Semester:</strong> {{ student.semester }}</p>
+        <p><strong>CGPA:</strong> {{ student.cgpa }}</p>
+        <p><strong>Skills:</strong> {{ student.skills }}</p>
+        <p><strong>Interests:</strong> {{ student.interests }}</p>
+        <p><strong>Career Goal:</strong> {{ student.career_goal|default:"Not set" }}</p>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-bottom:12px;">Test Attempts</h3>
+        <table>
+            <tr><th>Test</th><th>Score</th></tr>
+            {% for a in test_attempts %}
+            <tr><td>{{ a.test.title }}</td><td>{{ a.score }}/{{ a.total }}</td></tr>
+            {% empty %}
+            <tr><td colspan="2">No test attempts yet.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div class="card" style="margin-top:24px;">
+    <h3 style="margin-bottom:14px;">Add a Note / Suggestion</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group"><label>Suggested Career</label>{{ form.assigned_career }}</div>
+        <div class="form-group"><label>Note</label>{{ form.note }}</div>
+        <button type="submit" class="btn btn-primary">Save Note</button>
+    </form>
+</div>
+
+<div class="card" style="margin-top:24px;">
+    <h3 style="margin-bottom:14px;">Previous Notes</h3>
+    {% for n in notes %}
+    <div style="padding:10px 0; border-bottom:1px solid var(--border);">
+        <p>{{ n.note }}</p>
+        <span style="font-size:12px; color:var(--text-muted);">
+            By {{ n.counselor.username }} on {{ n.created_on|date:"d M Y" }}
+            {% if n.assigned_career %} - Suggested: {{ n.assigned_career.name }}{% endif %}
+        </span>
+    </div>
+    {% empty %}
+    <p style="font-size:13px; color:var(--text-muted);">No notes yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

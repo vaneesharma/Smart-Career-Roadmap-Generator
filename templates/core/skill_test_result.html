@@ -1,0 +1,10 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Test Result{% endblock %}
+{% block dashboard_content %}
+<div class="card" style="text-align:center; max-width:420px; margin:0 auto;">
+    <h2>{{ attempt.test.title }}</h2>
+    <h1 style="font-size:48px; color:var(--primary); margin:16px 0;">{{ attempt.score }}/{{ attempt.total }}</h1>
+    <p style="color:var(--text-muted);">You scored {{ attempt.percentage }}%</p>
+    <a href="{% url 'core:skill_test_list' %}" class="btn btn-primary" style="margin-top:20px;">Back to Tests</a>
+</div>
+{% endblock %}

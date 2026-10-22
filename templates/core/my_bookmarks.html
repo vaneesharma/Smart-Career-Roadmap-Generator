@@ -1,0 +1,15 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}My Bookmarks{% endblock %}
+{% block dashboard_content %}
+<div class="grid grid-3">
+    {% for b in bookmarks %}
+    <div class="card">
+        <h3>{{ b.resource.title }}</h3>
+        <p style="font-size:13px; margin:8px 0;">{{ b.resource.description|truncatewords:16 }}</p>
+        <a href="{{ b.resource.link }}" target="_blank" class="btn btn-sm btn-primary">Open</a>
+    </div>
+    {% empty %}
+    <p>You haven't bookmarked anything yet. <a href="{% url 'core:resources' %}" style="color:var(--primary);">Browse resources →</a></p>
+    {% endfor %}
+</div>
+{% endblock %}

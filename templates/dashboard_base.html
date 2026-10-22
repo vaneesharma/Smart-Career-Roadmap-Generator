@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+    {% include 'partials/sidebar.html' %}
+
+    <main class="main-content">
+        <div class="topbar">
+            <div class="greeting">
+                <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+                <p>{% block page_subtitle %}Welcome back, {{ user.first_name|default:user.username }}{% endblock %}</p>
+            </div>
+            <div class="topbar-actions">
+                <a href="{% url 'core:notifications' %}" class="notif-bell">
+                    🔔
+                    {% if unread_notifications_count > 0 %}
+                        <span class="notif-badge">{{ unread_notifications_count }}</span>
+                    {% endif %}
+                </a>
+                <button id="theme-toggle" style="background:none;border:none;cursor:pointer;font-size:18px;">🌙</button>
+                {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture.url }}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;">
+                {% else %}
+                    <div style="width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">
+                        {{ user.username|first|upper }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block dashboard_content %}{% endblock %}
+    </main>
+</div>
+{% endblock %}

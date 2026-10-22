@@ -1,0 +1,31 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Resume{% endblock %}
+{% block page_subtitle %}Upload, preview and manage your resume versions{% endblock %}
+{% block dashboard_content %}
+<div class="card" style="margin-bottom:20px;">
+    <form method="POST" enctype="multipart/form-data" style="display:flex; gap:12px; align-items:center;">
+        {% csrf_token %}
+        {{ form.file }}
+        <button type="submit" class="btn btn-primary">Upload Resume</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom:14px;">Resume History</h3>
+    <table>
+        <tr><th>File</th><th>Uploaded On</th><th>Actions</th></tr>
+        {% for r in resumes %}
+        <tr>
+            <td>{{ r.file.name }}</td>
+            <td>{{ r.uploaded_on|date:"d M Y, h:i A" }}</td>
+            <td>
+                <a href="{{ r.file.url }}" target="_blank" class="btn btn-sm btn-outline">Preview</a>
+                <a href="{{ r.file.url }}" download class="btn btn-sm btn-primary">Download</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No resume uploaded yet.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

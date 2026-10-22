@@ -1,0 +1,20 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Manage Students{% endblock %}
+{% block dashboard_content %}
+<div class="card">
+    <table>
+        <tr><th>Username</th><th>Email</th><th>College</th><th>Branch</th><th>CGPA</th></tr>
+        {% for s in students %}
+        <tr>
+            <td>{{ s.user.username }}</td>
+            <td>{{ s.user.email }}</td>
+            <td>{{ s.college }}</td>
+            <td>{{ s.branch }}</td>
+            <td>{{ s.cgpa|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No students registered yet.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

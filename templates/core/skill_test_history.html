@@ -1,0 +1,17 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}My Test History{% endblock %}
+{% block dashboard_content %}
+<table>
+    <tr><th>Test</th><th>Score</th><th>Percentage</th><th>Date</th></tr>
+    {% for a in attempts %}
+    <tr>
+        <td>{{ a.test.title }}</td>
+        <td>{{ a.score }}/{{ a.total }}</td>
+        <td>{{ a.percentage }}%</td>
+        <td>{{ a.attempted_on|date:"d M Y" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">You haven't taken any tests yet.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

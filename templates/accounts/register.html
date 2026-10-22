@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up - Smart Career Roadmap Generator{% endblock %}
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2>Create Your Account</h2>
+        <p class="subtitle">Start your journey to the right career today</p>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+                {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary" style="width:100%;">Create Account</button>
+        </form>
+        <p style="text-align:center; margin-top:18px; font-size:14px;">
+            Already have an account? <a href="{% url 'accounts:login' %}" style="color:var(--primary); font-weight:600;">Login</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

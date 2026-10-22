@@ -1,0 +1,12 @@
+# These are the packages our project needs to run
+# Install them using: pip install -r requirements.txt
+#
+# Recommended Python version: 3.11.x or 3.12.x
+# (see README.md "Python Version" section for why)
+
+Django==4.2.7
+PyMySQL==1.1.1
+Pillow==10.4.0
+django-widget-tweaks==1.5.0
+python-decouple==3.8
+requests==2.31.0

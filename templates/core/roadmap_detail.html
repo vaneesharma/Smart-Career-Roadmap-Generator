@@ -1,0 +1,41 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}{{ career.name }} Roadmap{% endblock %}
+{% block page_subtitle %}Follow each stage in order and check items off as you complete them{% endblock %}
+
+{% block dashboard_content %}
+<div class="card" style="margin-bottom:24px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <h3>Overall Progress</h3>
+            <p style="font-size:13px; color:var(--text-muted);">{{ percent }}% complete</p>
+        </div>
+        <h2 style="color:var(--primary);">{{ percent }}%</h2>
+    </div>
+    <div class="progress-bar-bg" style="margin-top:12px;"><div class="progress-bar-fill" data-percent="{{ percent }}"></div></div>
+</div>
+
+{% for stage in stages %}
+<div class="card" style="margin-bottom:20px;">
+    <h3 style="text-transform:capitalize; margin-bottom:14px;">
+        {% if stage.level == 'beginner' %}🟢{% elif stage.level == 'intermediate' %}🟡{% else %}🔴{% endif %}
+        {{ stage.level }} Level
+    </h3>
+    {% for item in stage.items.all %}
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border);">
+        <form method="POST" action="{% url 'core:toggle_roadmap_item' item.id %}">
+            {% csrf_token %}
+            <input type="checkbox" onchange="this.form.submit()" {% if item.id in completed_ids %}checked{% endif %} style="width:18px; height:18px;">
+        </form>
+        <span style="{% if item.id in completed_ids %}text-decoration:line-through; color:var(--text-muted);{% endif %}">
+            {{ item.title }}
+        </span>
+        {% if item.resource_link %}
+        <a href="{{ item.resource_link }}" target="_blank" style="margin-left:auto; font-size:12px; color:var(--primary);">Resource →</a>
+        {% endif %}
+    </div>
+    {% empty %}
+    <p style="font-size:13px; color:var(--text-muted);">No items added for this stage yet.</p>
+    {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

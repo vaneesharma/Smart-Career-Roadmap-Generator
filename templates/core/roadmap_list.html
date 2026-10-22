@@ -1,0 +1,18 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Career Roadmaps{% endblock %}
+{% block page_subtitle %}Pick a career to see its step by step learning path{% endblock %}
+
+{% block dashboard_content %}
+<div class="grid grid-3">
+    {% for career in careers %}
+    <div class="card">
+        <h3>{{ career.name }}</h3>
+        <p style="font-size:13px; margin:8px 0;">{{ career.description|truncatewords:18 }}</p>
+        <p style="font-size:12px; color:var(--text-muted);">⏱ Approx. {{ career.roadmap.estimated_duration_months }} months</p>
+        <a href="{% url 'core:roadmap_detail' career.id %}" class="btn btn-sm btn-primary" style="margin-top:12px;">View Roadmap</a>
+    </div>
+    {% empty %}
+    <p>No roadmaps have been added yet. Check back soon!</p>
+    {% endfor %}
+</div>
+{% endblock %}

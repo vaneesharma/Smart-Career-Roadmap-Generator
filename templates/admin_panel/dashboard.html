@@ -1,0 +1,52 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Admin Dashboard{% endblock %}
+{% block page_subtitle %}System overview and management{% endblock %}
+{% block dashboard_content %}
+<div class="grid grid-4" style="margin-bottom:24px;">
+    <div class="card stat-card"><div class="number">{{ total_students }}</div><div class="label">Students</div></div>
+    <div class="card stat-card"><div class="number">{{ total_counselors }}</div><div class="label">Counselors</div></div>
+    <div class="card stat-card"><div class="number">{{ total_careers }}</div><div class="label">Career Paths</div></div>
+    <div class="card stat-card"><div class="number">{{ total_resources }}</div><div class="label">Resources</div></div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr; gap:24px;">
+    <div class="card">
+        <h3 style="margin-bottom:14px;">Recently Joined Students</h3>
+        <table>
+            <tr><th>Name</th><th>College</th><th>Branch</th></tr>
+            {% for s in recent_students %}
+            <tr><td>{{ s.user.username }}</td><td>{{ s.college }}</td><td>{{ s.branch }}</td></tr>
+            {% empty %}
+            <tr><td colspan="3">No students yet.</td></tr>
+            {% endfor %}
+        </table>
+        <a href="{% url 'core:admin_manage_students' %}" style="display:inline-block; margin-top:14px; color:var(--primary);">Manage all students →</a>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-bottom:14px;">Send Announcement</h3>
+        <form method="POST" action="{% url 'core:admin_send_announcement' %}">
+            {% csrf_token %}
+            <textarea name="message" rows="4" placeholder="Write an announcement for all students..." style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text);" required></textarea>
+            <button type="submit" class="btn btn-primary" style="margin-top:10px; width:100%;">Send to All Students</button>
+        </form>
+    </div>
+</div>
+
+<div class="card" style="margin-top:24px;">
+    <h3 style="margin-bottom:14px;">Recent Contact Messages</h3>
+    <table>
+        <tr><th>Name</th><th>Subject</th><th>Message</th><th>Date</th></tr>
+        {% for m in recent_messages %}
+        <tr><td>{{ m.name }}</td><td>{{ m.subject }}</td><td>{{ m.message|truncatewords:10 }}</td><td>{{ m.submitted_on|date:"d M Y" }}</td></tr>
+        {% empty %}
+        <tr><td colspan="4">No messages yet.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+
+<p style="margin-top:20px; font-size:13px; color:var(--text-muted);">
+    For full management of career paths, roadmaps, resources and skill tests, use the
+    <a href="/django-admin/" target="_blank" style="color:var(--primary);">full Django admin panel →</a>
+</p>
+{% endblock %}

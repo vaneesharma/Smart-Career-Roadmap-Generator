@@ -1,0 +1,64 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Welcome back, {{ user.first_name|default:user.username }} 👋{% endblock %}
+{% block page_subtitle %}Here's where your career journey stands today{% endblock %}
+
+{% block dashboard_content %}
+<div class="grid grid-4" style="margin-bottom:24px;">
+    <div class="card">
+        <p style="color:var(--text-muted); font-size:13px;">Profile Completion</p>
+        <h2 style="margin:8px 0;">{{ profile_completion }}%</h2>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" data-percent="{{ profile_completion }}"></div></div>
+    </div>
+    <div class="card">
+        <p style="color:var(--text-muted); font-size:13px;">Roadmap Progress</p>
+        <h2 style="margin:8px 0;">{{ roadmap_percent }}%</h2>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" data-percent="{{ roadmap_percent }}"></div></div>
+    </div>
+    <div class="card">
+        <p style="color:var(--text-muted); font-size:13px;">Latest Test Score</p>
+        <h2 style="margin:8px 0;">
+            {% if latest_test %}{{ latest_test.score }}/{{ latest_test.total }}{% else %}--{% endif %}
+        </h2>
+        <p style="font-size:12px; color:var(--text-muted);">
+            {% if latest_test %}{{ latest_test.test.title }}{% else %}No tests taken yet{% endif %}
+        </p>
+    </div>
+    <div class="card">
+        <p style="color:var(--text-muted); font-size:13px;">Resume Status</p>
+        <h2 style="margin:8px 0;">{% if latest_resume %}Uploaded ✅{% else %}Missing ⚠️{% endif %}</h2>
+        <a href="{% url 'core:resume' %}" style="font-size:12px; color:var(--primary);">
+            {% if latest_resume %}Update resume{% else %}Upload now{% endif %}
+        </a>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr; gap:24px;">
+    <div class="card">
+        <h3 style="margin-bottom:16px;">Quick Actions</h3>
+        <div class="grid grid-3">
+            <a href="{% url 'core:career_recommendation' %}" class="card" style="text-decoration:none;">
+                <div class="icon">🎯</div><h3>Find My Career</h3><p>Get a personalised recommendation</p>
+            </a>
+            <a href="{% url 'core:roadmap_list' %}" class="card" style="text-decoration:none;">
+                <div class="icon">🗺️</div><h3>View Roadmap</h3><p>Continue your learning path</p>
+            </a>
+            <a href="{% url 'core:skill_test_list' %}" class="card" style="text-decoration:none;">
+                <div class="icon">📝</div><h3>Take a Test</h3><p>Check your current skill level</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-bottom:16px;">Recent Notifications</h3>
+        {% for n in recent_notifications %}
+        <div style="padding:10px 0; border-bottom:1px solid var(--border); font-size:13px;">
+            {{ n.message }}
+            <div style="color:var(--text-muted); font-size:11px;">{{ n.created_on|timesince }} ago</div>
+        </div>
+        {% empty %}
+        <p style="color:var(--text-muted); font-size:13px;">You're all caught up, no notifications.</p>
+        {% endfor %}
+        <a href="{% url 'core:notifications' %}" style="font-size:13px; color:var(--primary); display:block; margin-top:10px;">View all →</a>
+    </div>
+</div>
+{% endblock %}

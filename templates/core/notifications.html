@@ -1,0 +1,15 @@
+{% extends 'dashboard_base.html' %}
+{% block page_title %}Notifications{% endblock %}
+{% block dashboard_content %}
+<div class="card">
+    {% for n in notifications %}
+    <div style="padding:14px 0; border-bottom:1px solid var(--border);">
+        <p>{{ n.message }}</p>
+        <span style="font-size:12px; color:var(--text-muted);">{{ n.created_on|timesince }} ago</span>
+        {% if not n.student %}<span class="badge badge-info" style="margin-left:8px;">Announcement</span>{% endif %}
+    </div>
+    {% empty %}
+    <p>No notifications yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

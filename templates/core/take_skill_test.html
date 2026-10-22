@@ -1,0 +1,24 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+{% block page_title %}{{ test.title }}{% endblock %}
+{% block dashboard_content %}
+<div class="card" style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+    <p>Answer all questions honestly, this helps us guide you better.</p>
+    <div id="test-timer" data-seconds="{% widthratio test.time_limit_minutes 1 60 %}" style="font-size:20px; font-weight:700; color:var(--danger);">--:--</div>
+</div>
+<form method="POST" id="skill-test-form">
+    {% csrf_token %}
+    {% for q in questions %}
+    <div class="card" style="margin-bottom:16px;">
+        <h3 style="margin-bottom:12px;">{{ forloop.counter }}. {{ q.text }}</h3>
+        {% for choice in q.choices.all %}
+        <label style="display:block; padding:8px 0; cursor:pointer;">
+            <input type="radio" name="question_{{ q.id }}" value="{{ choice.id }}" required> {{ choice.text }}
+        </label>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit Test</button>
+</form>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/timer.js' %}"></script>{% endblock %}

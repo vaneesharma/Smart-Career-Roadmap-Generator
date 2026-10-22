@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Smart Career Roadmap Generator - Find Your Perfect Career Path{% endblock %}
+
+{% block content %}
+{% include 'partials/navbar.html' %}
+
+<!-- ---------------- HERO ---------------- -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Find Your <span>Perfect Career</span> and Follow a Roadmap to Get There</h1>
+        <p>Tell us your skills, interests and goals - we'll recommend the best-fit career and build you a step by step learning roadmap to follow.</p>
+        <a href="{% url 'accounts:register' %}" class="btn btn-primary">Get Started Free</a>
+        <a href="#features" class="btn btn-outline">Learn More</a>
+    </div>
+    <div class="hero-image">
+        <img src="{% static 'images/hero-illustration.svg' %}" alt="Career roadmap illustration" onerror="this.style.display='none'">
+    </div>
+</section>
+
+<!-- ---------------- FEATURES ---------------- -->
+<section class="section" id="features">
+    <h2 class="section-title">Everything You Need, In One Place</h2>
+    <p class="section-subtitle">Built to take you from "confused about my career" to "I have a plan"</p>
+    <div class="grid grid-3">
+        <div class="card"><div class="icon">🎯</div><h3>Career Recommendation</h3><p>Get matched to careers based on your real skills and interests, not guesswork.</p></div>
+        <div class="card"><div class="icon">🗺️</div><h3>Personalized Roadmap</h3><p>Beginner to advanced, step by step, with resources for every stage.</p></div>
+        <div class="card"><div class="icon">📝</div><h3>Skill Assessment</h3><p>Take quick MCQ tests to see where you actually stand.</p></div>
+        <div class="card"><div class="icon">📚</div><h3>Learning Resources</h3><p>Curated books, docs, YouTube channels and practice platforms.</p></div>
+        <div class="card"><div class="icon">📄</div><h3>Resume Manager</h3><p>Upload, preview and keep a version history of your resume.</p></div>
+        <div class="card"><div class="icon">📊</div><h3>Progress Tracking</h3><p>Weekly and monthly stats so you can see yourself improving.</p></div>
+    </div>
+</section>
+
+<!-- ---------------- ABOUT ---------------- -->
+<section class="section" id="about" style="background:var(--surface);">
+    <h2 class="section-title">About This Project</h2>
+    <p class="section-subtitle" style="max-width:700px; margin-left:auto; margin-right:auto;">
+        Smart Career Roadmap Generator was built to solve a real problem students face every year -
+        too many career options, not enough clarity on which one actually fits them. This platform
+        combines a student's academic background, skills and interests to suggest realistic career
+        paths and lays out exactly what to learn next.
+    </p>
+</section>
+
+<!-- ---------------- STATS ---------------- -->
+<section class="section">
+    <div class="grid grid-4">
+        <div class="card stat-card"><div class="number">{{ stats.students_count }}+</div><div class="label">Students Registered</div></div>
+        <div class="card stat-card"><div class="number">{{ stats.careers_count }}+</div><div class="label">Career Paths</div></div>
+        <div class="card stat-card"><div class="number">{{ stats.resources_count }}+</div><div class="label">Learning Resources</div></div>
+        <div class="card stat-card"><div class="number">{{ stats.tests_count }}+</div><div class="label">Skill Tests</div></div>
+    </div>
+</section>
+
+<!-- ---------------- TESTIMONIALS ---------------- -->
+{% if testimonials %}
+<section class="section" style="background:var(--surface);">
+    <h2 class="section-title">What Students Say</h2>
+    <div class="grid grid-3">
+        {% for t in testimonials %}
+        <div class="card testimonial-card">
+            {% if t.photo %}<img src="{{ t.photo.url }}" alt="{{ t.student_name }}">{% endif %}
+            <p>"{{ t.message }}"</p>
+            <h3 style="margin-top:12px;">{{ t.student_name }}</h3>
+            <p style="font-size:12px;">{{ t.role_or_college }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- ---------------- FAQ ---------------- -->
+<section class="section" id="faq">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div style="max-width:700px; margin:0 auto;">
+        <div class="faq-item">
+            <div class="faq-question">Is this platform free to use? <span>+</span></div>
+            <div class="faq-answer">Yes, completely free for all students.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How does career recommendation work? <span>+</span></div>
+            <div class="faq-answer">We match the skills and interests you enter against the requirements of each career path and show you the best matches.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Can I track my learning progress? <span>+</span></div>
+            <div class="faq-answer">Yes, every roadmap milestone can be checked off and your dashboard shows your overall progress.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Can a career counselor guide me? <span>+</span></div>
+            <div class="faq-answer">Yes, counselors can view your profile, track your progress and leave suggestions directly on your account.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ---------------- CONTACT ---------------- -->
+<section class="section" id="contact" style="background:var(--surface);">
+    <h2 class="section-title">Get In Touch</h2>
+    <form method="POST" style="max-width:500px; margin:0 auto;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Name</label>
+            {{ contact_form.name }}
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            {{ contact_form.email }}
+        </div>
+        <div class="form-group">
+            <label>Subject</label>
+            {{ contact_form.subject }}
+        </div>
+        <div class="form-group">
+            <label>Message</label>
+            {{ contact_form.message }}
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+    </form>
+</section>
+
+{% include 'partials/footer.html' %}
+{% endblock %}
